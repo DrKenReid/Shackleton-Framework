@@ -124,14 +124,14 @@ int main(uint32_t argc, char* argv[]) {
     // --------------------------------------------------------------------------------
     // Executing Code -----------------------------------------------------------------
     gettimeofday(&shackleton_start, NULL);  //added 6/14/2021
-    int gen_evolved = evolution_basic_crossover_and_mutation_with_replacement(num_generations, num_population_size, indiv_size, tournament_size, percent_mutation, percent_crossover, percent_elite, curr_type, visualization, test_file, src_files, num_src_files, caching, track_fitness, cache_id, levels, num_levels); // Added 6/21/2021
+    int gen_evolved = evolution_basic_crossover_and_mutation_with_replacement(num_generations, num_population_size, indiv_size, tournament_size, percent_mutation, percent_crossover, percent_elite, curr_type, visualization, test_file, src_files, num_src_files, caching, track_fitness, cache_id, levels, num_levels, false); // Added 6/21/2021
     //evolution_basic_crossover_and_mutation_with_replacement(num_generations, num_population_size, 10, tournament_size, percent_mutation, percent_crossover, curr_type, visualization, test_file, src_files, num_src_files, caching);
     gettimeofday(&shackleton_end, NULL);  //added 6/14/2021
     
     // --------------------------------------------------------------------------------
     // Tests --------------------------------------------------------------------------
     if (test) {
-        test_master(num_generations, num_population_size, indiv_size, tournament_size, percent_mutation, percent_crossover, percent_elite, curr_type, visualization, test_file, src_files, num_src_files, caching, track_fitness);
+        test_master(num_generations, num_population_size, indiv_size, tournament_size, percent_mutation, percent_crossover, percent_elite, curr_type, visualization, test_file, src_files, num_src_files, caching, track_fitness, false);
     }
 
     // --------------------------------------------------------------------------------
@@ -172,6 +172,7 @@ void print_help_msg(uint32_t argc, char* argv[], uint32_t num_generations, uint3
                 printf("\t[3] OSAKA_STRING\n");
                 printf("\t[4] LLVM_PASS\n");
                 printf("\t[5] BINARY_UP_TO_512\n\n");
+                printf("\t[6] GI_LLVM_PASS\n");
                 printf("In addition to changing the type of object that will have a sequence evolved for it, you can also change the parameters of the evolutionary process itself."
                                     " Here are the options available as well as a short description and their default values:\n\n");
                 printf("\t[1] num_generations = %d\t\t-- Maximum number of generations for an evolutionary run\n", num_generations);
@@ -447,7 +448,7 @@ char** set_test_src_files(uint32_t argc, char* argv[], char test_file[], bool* l
     *llvm_optimizing_ptr = src_files == NULL ? false : true;
     if (!*llvm_optimizing_ptr) {
         *curr_type_ptr = set_obj_type(argc, argv);
-        if (*curr_type_ptr == 3) {
+        if (*curr_type_ptr == 3 || *curr_type_ptr == 5) {
             set_test_file(argc, argv, test_file);
             src_files = set_src_file(argc, argv, num_src_files_ptr);
             *llvm_optimizing_ptr = true;
@@ -489,7 +490,7 @@ osaka_object_typ set_obj_type(uint32_t argc, char* argv[]) {
     }
     if (!type_num_set) {
         osaka_print_available_object_types();
-        printf("\nWhich object type will you be using? 1/2/3/4/5: ");
+        printf("\nWhich object type will you be using? 1/2/3/4/5/6: ");
         scanf("%s", type);
         printf("\n");
     }

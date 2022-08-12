@@ -9,3 +9,4 @@ src/files/cache/*
 src/files/llvm/junk_output/*
 src/files/params/*
 exp/*
+obj/*

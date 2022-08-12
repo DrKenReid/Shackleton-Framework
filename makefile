@@ -30,7 +30,7 @@ DIR := .
 SRCDIR := ./src
 
 OBJDIR := obj
-OBJS := $(addprefix $(OBJDIR)/,main.o osaka.o modules.o simple.o osaka_test.o assembler.o osaka_string.o llvm_pass.o binary_up_to_512.o evolution.o crossover.o mutation.o generation.o fitness.o selection.o utility.o cJSON.o visualization.o llvm.o test.o indivdata.o cache.o)
+OBJS := $(addprefix $(OBJDIR)/,main.o osaka.o modules.o simple.o osaka_test.o assembler.o osaka_string.o llvm_pass.o gi_llvm_pass.o binary_up_to_512.o evolution.o crossover.o mutation.o generation.o fitness.o selection.o utility.o cJSON.o visualization.o llvm.o test.o indivdata.o optsequence.o cache.o)
                 
 osaka : $(OBJS)
 	cc -o shackleton $(OBJS)
@@ -60,6 +60,9 @@ $(OBJDIR)/osaka_string.o : $(SRCDIR)/module/osaka_string.c $(SRCDIR)/module/osak
 
 $(OBJDIR)/llvm_pass.o : $(SRCDIR)/module/llvm_pass.c $(SRCDIR)/module/llvm_pass.h
 	cc -c $(SRCDIR)/module/llvm_pass.c -o $@
+	
+$(OBJDIR)/gi_llvm_pass.o : $(SRCDIR)/module/gi_llvm_pass.c $(SRCDIR)/module/gi_llvm_pass.h
+	cc -c $(SRCDIR)/module/gi_llvm_pass.c -o $@
 
 $(OBJDIR)/binary_up_to_512.o : $(SRCDIR)/module/binary_up_to_512.c $(SRCDIR)/module/binary_up_to_512.h
 	cc -c $(SRCDIR)/module/binary_up_to_512.c -o $@
@@ -99,6 +102,9 @@ $(OBJDIR)/test.o : $(SRCDIR)/support/test.c $(SRCDIR)/support/test.h
 
 $(OBJDIR)/indivdata.o : $(SRCDIR)/evolution/indivdata.c $(SRCDIR)/evolution/indivdata.h
 	cc -c $(SRCDIR)/evolution/indivdata.c -o $@
+
+$(OBJDIR)/optsequence.o : $(SRCDIR)/evolution/optsequence.c $(SRCDIR)/evolution/optsequence.h
+	cc -c $(SRCDIR)/evolution/optsequence.c -o $@
 
 $(OBJDIR)/cache.o : $(SRCDIR)/support/cache.c $(SRCDIR)/support/cache.h
 	cc -c $(SRCDIR)/support/cache.c -o $@ 
