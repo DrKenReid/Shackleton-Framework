@@ -50,27 +50,34 @@ SRC_FILES := \
 	$(SRCDIR)/module/simple.c \
 	$(SRCDIR)/osaka/osaka.c \
 	$(SRCDIR)/osaka/osaka_test.c \
+	$(SRCDIR)/passes/llvm_pass_dflt.c \
+	$(SRCDIR)/support/build_llvm.c \
 	$(SRCDIR)/support/cJSON.c \
 	$(SRCDIR)/support/cache.c \
 	$(SRCDIR)/support/llvm.c \
+	$(SRCDIR)/support/measure.c \
 	$(SRCDIR)/support/test.c \
 	$(SRCDIR)/support/utility.c \
 	$(SRCDIR)/support/visualization.c \
                  
-OBJS := $(SRC_FILES:c=o)
+OBJS     := $(SRC_FILES:c=o)
+LIB_MS   := ./MeasureSuite/libmeasuresuite.a
+INCLUDES := -I src -I ./MeasureSuite/src/include 
 
 all: osaka ensure_directories
 
 osaka: shackleton
-shackleton: $(OBJS)
-	cc -o ${@} $(^) $(DIR)/main.c
-	cp ${@} $(DIR)/bin/init
+shackleton: $(OBJS) $(LIB_MS)
+	cc -g $(INCLUDES) -o ${@} $(^) $(DIR)/main.c -L ./MeasureSuite -l:libmeasuresuite.a -ldl -lm -lassemblyline 
+
+$(LIB_MS):
+	make -C ./MeasureSuite/ libmeasuresuite.a
 
 ensure_directories:
 	mkdir -p ./src/files/llvm/junk_output
 
 %.o: %.c
-	cc -c $^ -o $@
+	cc -g $(INCLUDES) -c $^ -o $@
 
 clean :
 	rm -rf $(OBJS) shackleton $(DIR)/bin/init

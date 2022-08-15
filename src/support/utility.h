@@ -309,5 +309,6 @@ void set_params_from_file(uint32_t *num_gen, uint32_t *pop_size, uint32_t *perc_
 
 double calc_var(double* array, double mean, int length);
 bool is_in_list(int num, int* list, int length);
+double median(u_int64_t *list, const  int len);
 
 #endif /* SUPPORT_UTILITY_H_ */

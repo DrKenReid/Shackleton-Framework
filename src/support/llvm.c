@@ -599,6 +599,7 @@ void llvm_form_test_command(char** src_files, uint32_t num_src_files, char* test
 
 uint32_t llvm_run_command(char* command) {
 
+    printf("running %s\n",command);
     return system(command); //>> 8; // shift by 8 to get the correct error number
 
 }

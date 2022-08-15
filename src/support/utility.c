@@ -582,3 +582,27 @@ bool is_in_list(int num, int* list, int length) {
     }
     return false;
 }
+
+
+/** based on  https://www.tutorialspoint.com/c-program-to-find-the-median-of-a-given-list */
+double median(u_int64_t list[], const int len) {
+
+  /* Sorting */
+  for (int i = 1; i <= len; i++) { /* Trip-i begins */
+    for (int j = 1; j <= len; j++) {
+      if (list[j] <= list[j + 1]) { /* Interchanging values */
+        int t = list[j];
+        list[j] = list[j + 1];
+        list[j + 1] = t;
+      } else {
+        continue;
+      }
+    }
+  }
+  /* calculation of median */
+  int halflen = len / 2;
+  if (len % 2 == 0)
+    return (list[halflen] + list[halflen + 1]) / 2.0;
+  else
+    return list[halflen + 1];
+}
